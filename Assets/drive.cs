@@ -10,11 +10,13 @@ public class drive : MonoBehaviour {
 
 	private Vector3 velocity;
 	private Vector3 acceleration;
+	private Vector3 direction;
 
 	// Use this for initialization
 	void Start () {
 		velocity = new Vector3 (0, 0, 0);
 		acceleration = new Vector3 (0, 0, 0);
+		direction = transform.forward;
 		//r = GetComponent<Rigidbody> ();
 	}
 	
@@ -24,17 +26,21 @@ public class drive : MonoBehaviour {
 		acceleration *= 0.9f;
 
 		if (Input.GetKey ("up")) {
-			acceleration += transform.forward * speed; //* Time.deltaTime;
+			acceleration += direction * speed; //* Time.deltaTime;
 		}
 		if (Input.GetKey ("down")) {
-			acceleration += -0.5f * transform.forward * speed; //* Time.deltaTime;
+			acceleration += -0.5f * direction * speed; //* Time.deltaTime;
 		}
 
 		if(Input.GetKey("left")){
-			transform.Rotate (new Vector3(0,-1.0f,0));
+			direction = Quaternion.AngleAxis (-5,Vector3.up) * direction;
+			transform.rotation = (Quaternion.LookRotation (direction));
+			//transform.Rotate (new Vector3(0,-1.0f,0));
 		}
 		if(Input.GetKey("right")){
-			transform.Rotate (new Vector3(0,1.0f,0));
+			direction = Quaternion.AngleAxis (5,Vector3.up) * direction;
+			transform.rotation = (Quaternion.LookRotation (direction));
+			//transform.Rotate (new Vector3(0,1.0f,0));
 		}
 		/*
 		velocity *= 0.9f;
